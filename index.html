@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SkyLink Duo – Universal Bluetooth audio adapter for wireless streaming. Connect two headphones, enjoy aptX HD sound, and 25+ hours of battery life.">
+  <meta name="keywords" content="Bluetooth audio adapter, dual headphone streaming, wireless audio transmitter, aptX HD, SkyLink Duo">
+  <meta name="author" content="SkyLink">
+  <meta property="og:title" content="SkyLink Duo – Go Wireless, Anywhere">
+  <meta property="og:description" content="Stream, share, and connect with the SkyLink Duo Bluetooth adapter. Shop now for €59 with free EU shipping!">
+  <meta property="og:image" content="/images/skylink-duo.webp">
+  <meta property="og:url" content="https://your-vercel-domain.vercel.app">
+  <title>SkyLink Duo – Universal Bluetooth Audio Adapter</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <script src="https://js.stripe.com/v3/"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": "SkyLink Duo",
+      "image": "/images/skylink-duo.webp",
+      "description": "SkyLink Duo is a universal Bluetooth audio adapter with transmit and receive modes, dual headphone pairing, and 25+ hours of battery life.",
+      "brand": { "@type": "Brand", "name": "SkyLink" },
+      "offers": {
+        "@type": "Offer",
+        "priceCurrency": "EUR",
+        "price": "59.00",
+        "availability": "https://schema.org/InStock",
+        "url": "https://your-vercel-domain.vercel.app"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "320"
+      }
+    }
+  </script>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useState } = React;
+
+    // Main App Component
+    function App() {
+      const [isCheckoutOpen, setCheckoutOpen] = useState(false);
+      const [isMenuOpen, setMenuOpen] = useState(false);
+      const [carouselIndex, setCarouselIndex] = useState(0);
+      const [quantity, setQuantity] = useState(1);
+      const [addUpsell, setAddUpsell] = useState(false);
+
+      // Handle Stripe Checkout
+      const handleBuyNow = async () => {
+        const stripe = Stripe('pk_test_your_stripe_publishable_key'); // Replace with your Stripe key
+        try {
+          const response = await fetch('/api/create-checkout-session', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              productId: 'skylink-duo',
+              quantity,
+              upsell: addUpsell,
+            }),
+          });
+          const session = await response.json();
+          await stripe.redirectToCheckout({ sessionId: session.id });
+        } catch (error) {
+          console.error('Error:', error);
+        }
+      };
+
+      // Carousel Steps for How It Works
+      const steps = [
+        { title: 'Plug In', desc: 'Insert SkyLink Duo into any 3.5mm audio jack.', icon: 'fas fa-plug' },
+        { title: 'Switch Mode', desc: 'Flip the TX/RX switch to transmit or receive.', icon: 'fas fa-toggle-on' },
+        { title: 'Pair Devices', desc: 'Press the pairing button to connect.', icon: 'fas fa-bluetooth' },
+        { title: 'Enjoy', desc: 'Stream wireless audio with freedom.', icon: 'fas fa-headphones' },
+      ];
+
+      return (
+        <div className="font-sans">
+          {/* Sticky Navigation Bar */}
+          <nav className="bg-gray-900 text-white fixed w-full top-0 z-50 shadow-lg">
+            <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+              <a href="/" className="text-2xl font-bold">SkyLink</a>
+              <div className="hidden md:flex space-x-6">
+                <a href="#home" className="hover:text-yellow-500">Home</a>
+                <a href="#features" className="hover:text-yellow-500">Features</a>
+                <a href="#reviews" className="hover:text-yellow-500">Reviews</a>
+                <a href="#support" className="hover:text-yellow-500">Support</a>
+                <a
+                  href="#pricing"
+                  className="bg-yellow-500 text-gray-900 px-4 py-2 rounded-full font-semibold hover:bg-yellow-400"
+                >
+                  Buy Now
+                </a>
+              </div>
+              <button
+                className="md:hidden text-2xl"
+                onClick={() => setMenuOpen(!isMenuOpen)}
+              >
+                <i className="fas fa-bars"></i>
+              </button>
+            </div>
+            {/* Mobile Menu */}
+            {isMenuOpen && (
+              <div className="md:hidden bg-gray-800 py-4">
+                <a href="#home" className="block px-4 py-2 hover:text-yellow-500">Home</a>
+                <a href="#features" className="block px-4 py-2 hover:text-yellow-500">Features</a>
+                <a href="#reviews" className="block px-4 py-2 hover:text-yellow-500">Reviews</a>
+                <a href="#support" className="block px-4 py-2 hover:text-yellow-500">Support</a>
+                <a
+                  href="#pricing"
+                  className="block px-4 py-2 bg-yellow-500 text-gray-900 text-center rounded-full font-semibold hover:bg-yellow-400"
+                >
+                  Buy Now
+                </a>
+              </div>
+            )}
+          </nav>
+
+          {/* Hero Section */}
+          <section id="home" className="bg-gray-900 text-white pt-24 pb-20">
+            <div className="container mx-auto px-4 flex flex-col md:flex-row items-center">
+              <div className="md:w-1/2">
+                <h1 className="text-4xl md:text-5xl font-bold mb-4">SkyLink Duo – Go Wireless, Anywhere</h1>
+                <p className="text-lg mb-6">Stream, share, and connect with crystal-clear Bluetooth audio.</p>
+                <div className="flex space-x-4">
+                  <a
+                    href="#pricing"
+                    className="bg-yellow-500 text-gray-900 px-6 py-3 rounded-full font-semibold hover:bg-yellow-400 transition"
+                  >
+                    Buy Now – Only €59
+                  </a>
+                  <a
+                    href="#features"
+                    className="border border-white text-white px-6 py-3 rounded-full font-semibold hover:bg-white hover:text-gray-900 transition"
+                  >
+                    How It Works
+                  </a>
+                </div>
+              </div>
+              <div className="md:w-1/2 mt-8 md:mt-0">
+                <img
+                  src="/images/skylink-duo.webp"
+                  alt="SkyLink Duo in use"
+                  className="w-full rounded-lg shadow-lg"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+          </section>
+
+          {/* Features Section */}
+          <section id="features" className="py-16 bg-white">
+            <div className="container mx-auto px-4">
+              <h2 className="text-3xl font-bold text-center mb-12">Why SkyLink Duo?</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="text-center">
+                  <i className="fas fa-exchange-alt text-4xl text-yellow-500 mb-4"></i>
+                  <h3 className="text-xl font-semibold mb-2">Transmit + Receive Modes</h3>
+                  <p>Universal Bluetooth adapter for any device, in any scenario.</p>
+                </div>
+                <div className="text-center">
+                  <i className="fas fa-headphones-alt text-4xl text-yellow-500 mb-4"></i>
+                  <h3 className="text-xl font-semibold mb-2">Dual Headphone Pairing</h3>
+                  <p>Share movies, music, or games with a friend.</p>
+                </div>
+                <div className="text-center">
+                  <i className="fas fa-volume-up text-4xl text-yellow-500 mb-4"></i>
+                  <h3 className="text-xl font-semibold mb-2">aptX HD Sound</h3>
+                  <p>Crystal-clear, low-latency audio for seamless streaming.</p>
+                </div>
+                <div className="text-center">
+                  <i className="fas fa-battery-full text-4xl text-yellow-500 mb-4"></i>
+                  <h3 className="text-xl font-semibold mb-2">25+ Hours of Battery Life</h3>
+                  <p>Built for long flights, road trips, or gaming marathons.</p>
+                </div>
+                <div className="text-center">
+                  <i className="fas fa-briefcase text-4xl text-yellow-500 mb-4"></i>
+                  <h3 className="text-xl font-semibold mb-2">Pocket-Sized</h3>
+                  <p>Ultra-portable design fits anywhere you go.</p>
+                </div>
+                <div className="text-center">
+                  <i className="fas fa-plug text-4xl text-yellow-500 mb-4"></i>
+                  <h3 className="text-xl font-semibold mb-2">Works with Everything</h3>
+                  <p>AirPods, car AUX, console jacks, and more.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* How It Works Section */}
+          <section className="py-16 bg-gray-100">
+            <div className="container mx-auto px-4">
+              <h2 className="text-3xl font-bold text-center mb-12">How It Works</h2>
+              <div className="relative">
+                <div className="flex justify-center items-center">
+                  <div className="w-full max-w-md text-center">
+                    <i className={`${steps[carouselIndex].icon} text-5xl text-yellow-500 mb-4 animate-bounce`}></i>
+                    <h3 className="text-xl font-semibold mb-2">{steps[carouselIndex].title}</h3>
+                    <p>{steps[carouselIndex].desc}</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setCarouselIndex((carouselIndex - 1 + steps.length) % steps.length)}
+                  className="absolute left-0 top-1/2 transform -translate-y-1/2 text-2xl text-gray-600 hover:text-yellow-500"
+                >
+                  <i className="fas fa-chevron-left"></i>
+                </button>
+                <button
+                  onClick={() => setCarouselIndex((carouselIndex + 1) % steps.length)}
+                  className="absolute right-0 top-1/2 transform -translate-y-1/2 text-2xl text-gray-600 hover:text-yellow-500"
+                >
+                  <i className="fas fa-chevron-right"></i>
+                </button>
+              </div>
+            </div>
+          </section>
+
+          {/* Testimonials Section */}
+          <section id="reviews" className="py-16 bg-white">
+            <div className="container mx-auto px-4">
+              <h2 className="text-3xl font-bold text-center mb-12">What Our Customers Say</h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="bg-gray-100 p-6 rounded-lg shadow-md text-center">
+                  <div className="text-yellow-500 mb-2">⭐️⭐️⭐️⭐️⭐️</div>
+                  <p className="italic mb-4">"Finally watched a movie with my wife on the plane. Game-changer."</p>
+                  <p className="font-semibold">– Jasper, Amsterdam</p>
+                </div>
+                <div className="bg-gray-100 p-6 rounded-lg shadow-md text-center">
+                  <div className="text-yellow-500 mb-2">⭐️⭐️⭐️⭐️⭐️</div>
+                  <p className="italic mb-4">"No lag while gaming. Sounds amazing with my Sony XM5s."</p>
+                  <p className="font-semibold">– Amina, Berlin</p>
+                </div>
+                <div className="bg-gray-100 p-6 rounded-lg shadow-md text-center">
+                  <div className="text-yellow-500 mb-2">⭐️⭐️⭐️⭐️⭐️</div>
+                  <p className="italic mb-4">"Worked instantly with my vintage car stereo. Super easy."</p>
+                  <p className="font-semibold">– Carlos, Barcelona</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* FAQ / Technical Specs Section */}
+          <section id="support" className="py-16 bg-gray-100">
+            <div className="container mx-auto px-4">
+              <h2 className="text-3xl font-bold text-center mb-12">Technical Specs & FAQs</h2>
+              <div className="space-y-4 max-w-2xl mx-auto">
+                {[
+                  { q: 'What devices does it work with?', a: 'Compatible with AirPods, Bose, Sony, car stereos, gaming consoles, and any device with a 3.5mm jack.' },
+                  { q: 'What are the input/output types?', a: '3.5mm AUX input/output for universal compatibility.' },
+                  { q: 'What modes are supported?', a: 'TX (transmit) to send audio, RX (receive) to connect to speakers or headphones.' },
+                  { q: 'What is the Bluetooth version?', a: 'Bluetooth 5.3 with aptX HD for low-latency, high-quality audio.' },
+                  { q: 'How long does the battery last?', a: '25+ hours per charge, with USB-C charging.' },
+                  { q: 'Can it pair with two headphones?', a: 'Yes, supports simultaneous pairing with two devices.' },
+                ].map((faq, index) => (
+                  <details key={index} className="bg-white p-4 rounded-lg shadow-md">
+                    <summary className="font-semibold cursor-pointer">{faq.q}</summary>
+                    <p className="mt-2">{faq.a}</p>
+                  </details>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Pricing & Purchase Section */}
+          <section id="pricing" className="py-16 bg-white">
+            <div className="container mx-auto px-4">
+              <h2 className="text-3xl font-bold text-center mb-12">Get Your SkyLink Duo Today</h2>
+              <div className="max-w-md mx-auto bg-gray-100 p-8 rounded-lg shadow-lg text-center">
+                <img
+                  src="/images/skylink-duo.webp"
+                  alt="SkyLink Duo"
+                  className="w-48 mx-auto mb-4"
+                  loading="lazy"
+                />
+                <h3 className="text-2xl font-semibold mb-2">SkyLink Duo</h3>
+                <p className="text-3xl font-bold mb-4">€59</p>
+                <p className="text-green-600 mb-4">Free EU Shipping • 30-Day Returns • 2-Year Warranty</p>
+                <div className="mb-4">
+                  <label className="block mb-2 font-semibold">Quantity</label>
+                  <input
+                    type="number"
+                    min="1"
+                    value={quantity}
+                    onChange={(e) => setQuantity(parseInt(e.target.value) || 1)}
+                    className="w-20 p-2 border rounded"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="flex items-center justify-center space-x-2">
+                    <input
+                      type="checkbox"
+                      checked={addUpsell}
+                      onChange={() => setAddUpsell(!addUpsell)}
+                    />
+                    <span>Add a second SkyLink Duo for only €49!</span>
+                  </label>
+                </div>
+                <button
+                  onClick={() => setCheckoutOpen(true)}
+                  className="w-full bg-yellow-500 text-gray-900 px-6 py-3 rounded-full font-semibold hover:bg-yellow-400 transition"
+                >
+                  Add to Cart
+                </button>
+                <div className="flex justify-center space-x-4 mt-4">
+                  <i className="fab fa-cc-visa text-2xl"></i>
+                  <i className="fab fa-cc-mastercard text-2xl"></i>
+                  <i className="fab fa-cc-paypal text-2xl"></i>
+                  <i className="fab fa-cc-apple-pay text-2xl"></i>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Checkout Modal */}
+          {isCheckoutOpen && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+              <div className="bg-white p-8 rounded-lg max-w-md w-full">
+                <h2 className="text-2xl font-bold mb-4">Checkout</h2>
+                <div className="mb-4">
+                  <p className="font-semibold">SkyLink Duo (x{quantity})</p>
+                  <p>€{59 * quantity}{addUpsell ? ` + €49 (Upsell)` : ''}</p>
+                </div>
+                <button
+                  onClick={handleBuyNow}
+                  className="w-full bg-yellow-500 text-gray-900 px-6 py-3 rounded-full font-semibold hover:bg-yellow-400 transition"
+                >
+                  Pay with Stripe
+                </button>
+                <button
+                  onClick={() => setCheckoutOpen(false)}
+                  className="mt-4 text-gray-600 hover:text-gray-900"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Live Support Widget */}
+          <a
+            href="/support"
+            className="fixed bottom-4 right-4 bg-yellow-500 text-gray-900 p-4 rounded-full shadow-lg hover:bg-yellow-400 transition"
+          >
+            <i className="fas fa-comment-alt text-xl"></i>
+          </a>
+
+          {/* Footer */}
+          <footer className="bg-gray-900 text-white py-8">
+            <div className="container mx-auto px-4 text-center">
+              <div className="mb-4">
+                <a href="/terms" className="text-yellow-500 hover:underline mx-2">Terms</a>
+                <a href="/privacy" className="text-yellow-500 hover:underline mx-2">Privacy</a>
+                <a href="/returns" className="text-yellow-500 hover:underline mx-2">Returns</a>
+                <a href="/contact" className="text-yellow-500 hover:underline mx-2">Contact</a>
+              </div>
+              <div className="flex justify-center space-x-4 mb-4">
+                <a href="https://instagram.com" className="text-yellow-500 hover:text-yellow-400"><i className="fab fa-instagram text-2xl"></i></a>
+                <a href="https://x.com" className="text-yellow-500 hover:text-yellow-400"><i className="fab fa-x-twitter text-2xl"></i></a>
+                <a href="https://facebook.com" className="text-yellow-500 hover:text-yellow-400"><i className="fab fa-facebook text-2xl"></i></a>
+              </div>
+              <div className="mb-4">
+                <p>Join 5,000+ wireless audio fans!</p>
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  className="mt-2 p-2 rounded-l-md border-none text-gray-900"
+                />
+                <button className="bg-yellow-500 text-gray-900 p-2 rounded-r-md hover:bg-yellow-400">Subscribe</button>
+              </div>
+              <div className="flex justify-center space-x-4">
+                <i className="fas fa-lock text-yellow-500"></i><span>SSL Secure</span>
+                <i className="fas fa-shield-alt text-yellow-500"></i><span>Payment Protection</span>
+                <i className="fas fa-undo text-yellow-500"></i><span>Free Returns</span>
+              </div>
+              <p className="mt-4">© 2025 SkyLink. All rights reserved.</p>
+            </div>
+          </footer>
+        </div>
+      );
+    }
+
+    // Render the App
+    ReactDOM.render(<App />, document.getElementById('root'));
+  </script>
+</body>
+</html>

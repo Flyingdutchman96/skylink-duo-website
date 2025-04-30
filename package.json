@@ -1,0 +1,12 @@
+{
+    "name": "skylink-duo-website",
+    "version": "1.0.0",
+    "description": "SkyLink Duo e-commerce website",
+    "main": "index.html",
+    "scripts": {
+      "start": "vercel dev"
+    },
+    "dependencies": {
+      "stripe": "^16.12.0"
+    }
+  }
