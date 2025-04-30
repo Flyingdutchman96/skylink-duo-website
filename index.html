@@ -15,7 +15,6 @@
   <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-  <script src="https://js.stripe.com/v3/"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <script type="application/ld+json">
     {
@@ -53,24 +52,9 @@
       const [quantity, setQuantity] = useState(1);
       const [addUpsell, setAddUpsell] = useState(false);
 
-      // Handle Stripe Checkout
-      const handleBuyNow = async () => {
-        const stripe = Stripe('pk_test_your_stripe_publishable_key'); // Replace with your Stripe key
-        try {
-          const response = await fetch('/api/create-checkout-session', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              productId: 'skylink-duo',
-              quantity,
-              upsell: addUpsell,
-            }),
-          });
-          const session = await response.json();
-          await stripe.redirectToCheckout({ sessionId: session.id });
-        } catch (error) {
-          console.error('Error:', error);
-        }
+      // Placeholder for checkout
+      const handleBuyNow = () => {
+        alert('Payment processing is not yet enabled. Please add a Stripe key to enable checkout.');
       };
 
       // Carousel Steps for How It Works
@@ -146,7 +130,7 @@
               </div>
               <div className="md:w-1/2 mt-8 md:mt-0">
                 <img
-                  src="/images/skylink-duo.webp"
+                  src="/public/images/skylink-duo.webp"
                   alt="SkyLink Duo in use"
                   className="w-full rounded-lg shadow-lg"
                   loading="lazy"
@@ -331,7 +315,7 @@
                   onClick={handleBuyNow}
                   className="w-full bg-yellow-500 text-gray-900 px-6 py-3 rounded-full font-semibold hover:bg-yellow-400 transition"
                 >
-                  Pay with Stripe
+                  Proceed to Payment
                 </button>
                 <button
                   onClick={() => setCheckoutOpen(false)}
